@@ -6,89 +6,97 @@ import calendar
 
     
 class Calendar(ttk.Frame):
-    fecha = None
-    año = None
-    meses = ("", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre","Octubre","Noviembre","Diciembre")
+    __fecha = None
+    __año = None
+    __meses = ("", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre","Octubre","Noviembre","Diciembre")
     
     def __init__(self, parent, **args):
         ttk.Frame.__init__(self, parent, width=532, height=422)
         self.Botones()
         self.Fechar()
         self.Diassemana()
-    def Validarmes(self, valor=None):
-        ahora= datetime.now()
-        if valor == None:
-            self.año= ahora.year
-            self.mes = 1
-            self.label.config(text ="{} {}".format(self.meses[mes], self.año))
-            return
-        else:
-            if valor == 1:
-                self.mes += 1
-            if valor == 12:
-                self.año += 1
-            if valor == -1:
-                self.mes = -1
-                if self.mes == 0:
-                    self.mes = 12
-            if valor == -12:
-                self.año -= 1
-                if self.año == 1899:
-                    self.año = 2099
+    def Validarmes(self, nuevafecha, valor):
+        nuevomes = nuevafecha.month
+        nuevoaño = nuevafecha.year
+        if valor == 1:
+            nuevomes += 1
+            if nuevomes == 13:
+                nuevomes = 1
+                nuevoaño += 1
+        if valor == 12:
+            nuevoaño += 1
+        if valor == -1:
+            nuevomes -= 1
+            if nuevomes == 0:
+                nuevomes = 12
+        if valor == -12:
+            nuevoaño -= 1
+            if nuevoaño == 0:
+                nuevoaño = 9999
+        return date(nuevoaño, nuevomes, 1)
                     
                     
     def Botones(self):
         # he cambiado algunos parametros para que todo cuadre mejor
-        self.cabecera = ttk.Frame(self, width=532, height=40).place(x=0,y=0)
-        self.anhomenos = ttk.Button(self.cabecera,width=5, text="<<", command=lambda: self.NuevaFecha(-12))
-        self.anhomenos.place(x=15, y=5)
-        self.mesmenos = ttk.Button(self.cabecera,width=5, text="<", command=lambda: self.NuevaFecha(-1))
-        self.mesmenos.place(x=70, y=5)
-        self.__MesyAño__ = ttk.Label(self.cabecera, text="", font=('Arial', 28, 'bold'))
-        self.__MesyAño__.place(x=146, y=0)
-        self.mesmas = ttk.Button(self.cabecera,width=5, text=">", command=lambda: self.NuevaFecha(1))
-        self.mesmas.place(x=400, y=5)
-        self.anhomas = ttk.Button(self.cabecera, width=5, text=">>", command=lambda: self.NuevaFecha(12))
-        self.anhomas.place(x=457.5, y=5)
-        self.label = ttk.Label(self.cabecera, text=" ",font=("Arial", 20, "bold")).place(x=130, y=0)
+        self.__cabecera = ttk.Frame(self, width=532, height=40).place(x=0,y=0)
+        self.__anhomenos = ttk.Button(self.__cabecera,width=5, text="<<", command=lambda: self.NuevaFecha(-12))
+        self.__anhomenos.place(x=15, y=5)
+        self.__mesmenos = ttk.Button(self.__cabecera,width=5, text="<", command=lambda: self.NuevaFecha(-1))
+        self.__mesmenos.place(x=70, y=5)
+        self.__MesyAño__ = ttk.Label(self.__cabecera, text="", font=('Arial', 20, 'bold'))
+        self.__MesyAño__.place(x=140, y=0)
+        self.__mesmas = ttk.Button(self.__cabecera,width=5, text=">", command=lambda: self.NuevaFecha(1))
+        self.__mesmas.place(x=400, y=5)
+        self.__anhomas = ttk.Button(self.__cabecera, width=5, text=">>", command=lambda: self.NuevaFecha(12))
+        self.__anhomas.place(x=457.5, y=5)
+        self.__label = ttk.Label(self.__cabecera, text=" ",font=("Arial", 20, "bold")).place(x=130, y=0)
         
     def Diassemana(self):
         # he cambiado algunos parametros para que todo cuadre mejor
         self.diasSe = ttk.Frame(self, width = 532, height= 20).place(x=0, y=38)
-        self.lunes = ttk.Label(self.diasSe, text="lunes",width=76, font=("Arial", 11))
-        self.lunes.place(x=0, y=38)
-        self.martes = ttk.Label(self.diasSe, text="martes",width=76, font=("Arial", 11))
-        self.martes.place(x=76, y=38)
-        self.miercoles = ttk.Label(self.diasSe, text="miercoles",width=76, font=("Arial", 11))
-        self.miercoles.place(x=152, y=38)
-        self.jueves = ttk.Label(self.diasSe, text="jueves",width=76, font=("Arial", 11))
-        self.jueves.place(x=238, y=38)
-        self.viernes = ttk.Label(self.diasSe, text="viernes",width=76, font=("Arial", 11))
-        self.viernes.place(x=304, y=38)
-        self.sabado = ttk.Label(self.diasSe, text="sabado",width=76, font=("Arial", 11))
-        self.sabado.place(x=380, y=38)
-        self.domingo = ttk.Label(self.diasSe, text="domingo",width=76 ,font=("Arial", 11))
-        self.domingo.place(x=456, y=38)
+        self.__lunes = ttk.Label(self.diasSe, text="lunes",width=76, font=("Arial", 11))
+        self.__lunes.place(x=15, y=38)
+        self.__martes = ttk.Label(self.diasSe, text="martes",width=76, font=("Arial", 11))
+        self.__martes.place(x=76, y=38)
+        self.__miercoles = ttk.Label(self.diasSe, text="miercoles",width=76, font=("Arial", 11))
+        self.__miercoles.place(x=152, y=38)
+        self.__jueves = ttk.Label(self.diasSe, text="jueves",width=76, font=("Arial", 11))
+        self.__jueves.place(x=238, y=38)
+        self.__viernes = ttk.Label(self.diasSe, text="viernes",width=76, font=("Arial", 11))
+        self.__viernes.place(x=304, y=38)
+        self.__sabado = ttk.Label(self.diasSe, text="sabado",width=76, font=("Arial", 11))
+        self.__sabado.place(x=380, y=38)
+        self.__domingo = ttk.Label(self.diasSe, text="domingo",width=76 ,font=("Arial", 11))
+        self.__domingo.place(x=456, y=38)
     def Fechar(self, mes=None, año=None):
         #Establecemos una fecha nueva si no hay ninguna
         if año == None:
-            self.fecha = date.today()
-        #Mes en el que queremos empezar
-        elif meses == None:
-            self.fecha = date(year, 1, 1)
+            self.__fecha = date.today()
         #Solo se activara cuando pulsemos los botones
         else:
-            self.fecha = date(year, month, 1)
-        self.__MesyAño__.config(text=(self.meses[self.fecha.month], self.fecha.year))
+            self.__fecha = date(año, mes, 1)
+        self.__MesyAño__.config(text=(self.__meses[self.__fecha.month], self.__fecha.year))
+    
+    def NuevaFecha(self, valor):
+        nuevafecha = self.Validarmes(self.__fecha, valor)
+        self.Fechar(nuevafecha.month, nuevafecha.year)
+        
+    def Cuadrosdias(self):
+        for m in range[5]:
+            for n in range[6]:
+                pass
+                
         
         
-        
-class Dates(ttk.Frame):
-    mes= None
-    dias= None
+"""class Dates(ttk.Frame):
+    __mes= None
+    __dias= None
+    __gris = False
+    __rojo = False
     def __init__(self, parent, **args):
         self.width = 76
-        self.heigth = 61
+        self.heigth = 61"""
+        
         
 class Mainapp(Tk):
     def __init__(self):

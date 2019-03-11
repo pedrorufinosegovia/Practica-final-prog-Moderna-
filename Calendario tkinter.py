@@ -91,7 +91,7 @@ class Calendar(ttk.Frame):
             self.__dias.append(cuadro)
     def DarValorDias(self):
         if len(self.__dias) > 0:
-            nuevaFecha = self.
+            return self.__dias
             
 class Dates(ttk.Frame):
     __fecha2 = None

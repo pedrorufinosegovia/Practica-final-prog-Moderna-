@@ -87,11 +87,12 @@ class Calendar(ttk.Frame):
     def Crearcuadrodias(self):
         for m in range(42):
             cuadro = Dates(self)
-            
             self.__dias.append(cuadro)
     def DarValorDias(self):
         if len(self.__dias) > 0:
-            return self.__dias
+            pass
+        
+            
             
 class Dates(ttk.Frame):
     __fecha2 = None

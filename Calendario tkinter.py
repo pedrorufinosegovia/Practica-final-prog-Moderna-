@@ -4,18 +4,21 @@ import datetime
 from datetime import date, datetime 
 import calendar
 
-    
 class Calendar(ttk.Frame):
     __fecha = None
     __año = None
     __meses = ("", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre","Octubre","Noviembre","Diciembre")
-    
+    __dias = []
     def __init__(self, parent, **args):
         ttk.Frame.__init__(self, parent, width=532, height=422)
         self.Botones()
         self.Fechar()
         self.Diassemana()
+        self.Crearcuadrodias()
+        self.Darvalordias()
+            
     def Validarmes(self, nuevafecha, valor):
+        #cambiamos la fecha vieja por la nueva
         nuevomes = nuevafecha.month
         nuevoaño = nuevafecha.year
         if valor == 1:
@@ -39,18 +42,16 @@ class Calendar(ttk.Frame):
     def Botones(self):
         # he cambiado algunos parametros para que todo cuadre mejor
         self.__cabecera = ttk.Frame(self, width=532, height=40).place(x=0,y=0)
-        self.__anhomenos = ttk.Button(self.__cabecera,width=5, text="<<", command=lambda: self.NuevaFecha(-12))
-        self.__anhomenos.place(x=15, y=5)
-        self.__mesmenos = ttk.Button(self.__cabecera,width=5, text="<", command=lambda: self.NuevaFecha(-1))
-        self.__mesmenos.place(x=70, y=5)
+        self.__Añomenos = ttk.Button(self.__cabecera,width=5, text="<<", command=lambda: self.NuevaFecha(-12))
+        self.__Añomenos.place(x=15, y=5)
+        self.__Mesmenos = ttk.Button(self.__cabecera,width=5, text="<", command=lambda: self.NuevaFecha(-1))
+        self.__Mesmenos.place(x=70, y=5)
+        self.__Mesmas = ttk.Button(self.__cabecera,width=5, text=">", command=lambda: self.NuevaFecha(1))
+        self.__Mesmas.place(x=400, y=5)
+        self.__Añomas = ttk.Button(self.__cabecera, width=5, text=">>", command=lambda: self.NuevaFecha(12))
+        self.__Añomas.place(x=457.5, y=5)
         self.__MesyAño__ = ttk.Label(self.__cabecera, text="", font=('Arial', 20, 'bold'))
         self.__MesyAño__.place(x=140, y=0)
-        self.__mesmas = ttk.Button(self.__cabecera,width=5, text=">", command=lambda: self.NuevaFecha(1))
-        self.__mesmas.place(x=400, y=5)
-        self.__anhomas = ttk.Button(self.__cabecera, width=5, text=">>", command=lambda: self.NuevaFecha(12))
-        self.__anhomas.place(x=457.5, y=5)
-        self.__label = ttk.Label(self.__cabecera, text=" ",font=("Arial", 20, "bold")).place(x=130, y=0)
-        
     def Diassemana(self):
         # he cambiado algunos parametros para que todo cuadre mejor
         self.diasSe = ttk.Frame(self, width = 532, height= 20).place(x=0, y=38)
@@ -76,28 +77,34 @@ class Calendar(ttk.Frame):
         else:
             self.__fecha = date(año, mes, 1)
         self.__MesyAño__.config(text=(self.__meses[self.__fecha.month], self.__fecha.year))
-    
+        
     def NuevaFecha(self, valor):
+        #Se activa al pulsar el boton
         nuevafecha = self.Validarmes(self.__fecha, valor)
+        #Con la fecha conseguida la sustituimos por la anterior
         self.Fechar(nuevafecha.month, nuevafecha.year)
         
-    def Cuadrosdias(self):
-        for m in range[5]:
-            for n in range[6]:
+    def Crearcuadrodias(self):
+        for m in range(42):
+            cuadro = Dates(self)
+            if m+2 == 7 or m+1 == 7:
                 pass
-                
-        
-        
-"""class Dates(ttk.Frame):
-    __mes= None
-    __dias= None
-    __gris = False
-    __rojo = False
+            self.__dias.append(cuadro)
+    def DarValorDias(self):
+        if len(self.__dias) > 0:
+            pass
+            
+class Dates(ttk.Frame):
     def __init__(self, parent, **args):
-        self.width = 76
-        self.heigth = 61"""
-        
-        
+        ttk.Frame.__init__(self, parent, width=76, height=61)
+        self.__texto = ttk.Label(self, text="", font=("Arial", 28,))
+        self.__texto.place(x=10, y=10)
+    
+    def Noesdeestemes(self, valor=None):
+        if valor=None:
+            return 
+                    
+    
 class Mainapp(Tk):
     def __init__(self):
         Tk.__init__(self)
@@ -109,8 +116,9 @@ class Mainapp(Tk):
 
     def start(self):
         self.mainloop()
-
-
+        
+        
 if __name__ == "__main__":
     app = Mainapp()
     app.start()
+    print(Calendar.__dias)

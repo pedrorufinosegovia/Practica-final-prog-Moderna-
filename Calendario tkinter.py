@@ -87,22 +87,25 @@ class Calendar(ttk.Frame):
     def Crearcuadrodias(self):
         for m in range(42):
             cuadro = Dates(self)
-            if m+2 == 7 or m+1 == 7:
-                pass
+            
             self.__dias.append(cuadro)
     def DarValorDias(self):
         if len(self.__dias) > 0:
-            pass
+            nuevaFecha = self.
             
 class Dates(ttk.Frame):
+    __fecha2 = None
+    __finde = False
+    __nofinde = True
     def __init__(self, parent, **args):
         ttk.Frame.__init__(self, parent, width=76, height=61)
         self.__texto = ttk.Label(self, text="", font=("Arial", 28,))
         self.__texto.place(x=10, y=10)
     
     def Noesdeestemes(self, valor=None):
-        if valor=None:
-            return 
+        if valor == None:
+            return self.__fecha2
+        
                     
     
 class Mainapp(Tk):

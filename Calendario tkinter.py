@@ -34,6 +34,8 @@ class Calendario(ttk.Frame):
                 nuevoaño += 1
         if valor == 12:
             nuevoaño += 1
+            if nuevoaño == 9999:
+                nuevoaño = 1
         if valor == -1:
             nuevomes -= 1
             if nuevomes == 0:
@@ -96,6 +98,7 @@ class Calendario(ttk.Frame):
         self.Fechar(nuevafecha.month, nuevafecha.year)
         
     def Crearcuadrodias(self):
+        
         for m in range(42):
             cuadro = Dates(self)
             if (m+1) % 7 == 0 or (m+2) % 7 == 0:
